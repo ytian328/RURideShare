@@ -22,11 +22,17 @@
 		out.print("password does not match");
 	}
 	String pub = request.getParameter("pub");
-	
+
 	Connection c = MySQL.connect();
-	Statement st = c.createStatement();
+	
+	String sql = "insert into users (user_id, password, email, last_login) values (?,?,?,?)";
+	PreparedStatement st = c.prepareStatement(sql);
+	st.setString(1, userId);
+	st.setString(2, pwd);
+	st.setString(3, email);
+	st.setTimestamp(4, null);
 	try{
-		int i = st.executeUpdate("insert into users values('"+userId+"', '"+pwd+"', '"+firstName+"', '"+lastName+"', '"+email+"', '"+email2+"', '"+pub+"')");
+		int i = st.executeUpdate();
 	} catch(SQLException e) {
 		out.println("SQLException: " + e.getMessage());
 	} 
