@@ -21,25 +21,30 @@
 	}
 	else {
 		out.println("welcome, " + session.getAttribute("userId"));
-	
-	
 %>
-<form action="mainUserDashboard.jsp" method="post">
-<a href="requestRidePage.jsp">Request Ride</a>
-<br>
-<a href="postRideOfferPage.jsp">Post Ride Offer</a>
-<br>
-<br>
-<a href="orderHistoryPage.jsp">Order History</a>
-<br>
-<br>
 <a href="myAccountPage.jsp">My Account</a>
-</form>
-
-
 <form action="logout.jsp" method="post">
 <input type="submit" value="Logout"/>
 </form>
+<table align="center" cellpadding="7" cellspacing="2" border="1">
+	<tr align="center">
+		<td>As Passenger</td>
+		<td>As Driver</td>
+	</tr>
+	<tr align="center">
+		<td><a href="requestRidePage.jsp">Request Ride</a></td>
+		<td><a href="postRideOfferPage.jsp">Post Ride Offer</a></td>
+	</tr>
+	<tr align="center">
+		<td><a href="requestListPage.jsp">My Active Ride Requests</a></td>
+		<td><a href="rideOfferListPage.jsp">My Active Ride Offers</a></td>
+	</tr>
+	<tr align="center">
+		<td><a href="passengerOrdersPage.jsp">Passenger Order History</a></td>
+		<td><a href="DriverOrdersPage.jsp">Driver Order History</a></td>
+	</tr>
+	
+</table>
 <%
 }
 %>

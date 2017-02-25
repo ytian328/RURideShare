@@ -1,20 +1,9 @@
-<!-- needs to refine:
-1. lot selection options should display based on the results of campus selection
-2. date picker valid values should be constrained from today to future dates
-3. timef valid values should be constrained from now to future
-4. timet valid values should be constrained from timef result to future
-5. passenger valid values should be between 1 and cars.capacity
-
-now should only take input manually satisfying constrains...
- -->
-
 <%@page import = "jsp.*, java.sql.*" %>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-
 
 <script type="text/javascript" src="jquery/jquery.js"></script>
 <script type="text/javascript" src="jquery/jquery-ui.js"></script>
@@ -37,7 +26,7 @@ now should only take input manually satisfying constrains...
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Post Ride Offer</title>
+<title>Request A Ride</title>
 </head>
 <body>
 
@@ -68,9 +57,9 @@ else {
 		String sql = null;
 	
 		%>
-		<form action="postRideOffer.jsp" method="post">
+		<form action="requestRide.jsp" method="post">
 		<table align="center" cellpadding="7" cellspacing="2" border="1">
-			<caption>Post A Ride Offer</caption>
+			<caption>Request A Ride</caption>
 			<tr>
 				<td><label for="campusd">Departure campus</label></td>
 				<td><select name="campusd" id="campusd">
@@ -132,21 +121,7 @@ else {
 				<td><input type="text" name="timet" id="timet" /></td>
 			</tr>
 			<tr>
-				<td><label for="car">Car</label></td>
-				<td><select name="car" id="car">
-			<% sql = "select plate from cars where uid=?";
-				st = c.prepareStatement(sql);
-				st.setString(1, session.getAttribute("userId").toString());
-				rs = st.executeQuery();
-				while(rs.next()) { %>
-					<option><%= rs.getString(1) %></option>
-			<% 	}%>
-		
-					</select>
-				</td>
-			</tr>
-			<tr>
-				<td><label for="passenger">Number of passengers I can take</label></td>
+				<td><label for="passenger">Number of passengers</label></td>
 				<td><select name="passenger" id="passenger">
 					<option value=1>1</option>
 					<option value=2>2</option>
@@ -163,7 +138,7 @@ else {
 			</tr>
 		</table>
 		<br>
-		<div align="center"><input type="submit" value="Post offer" /></div>
+		<div align="center"><input type="submit" value="Post request" /></div>
 		
 		</form>
 		<%

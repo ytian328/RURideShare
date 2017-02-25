@@ -10,16 +10,27 @@
 </head>
 <body>
 <form action="login.jsp" method="post">
-User ID: <input type="text" name="usr" />
-<a href="forgotUserId.html">Forgot user ID?</a>
-<br>
-password: <input type="text" name="pwd" />
-<a href="forgotPwd.html">Forgot password?</a>
-<input type="submit" id="log_in" value="log in">
+<table>
+	<tr>
+		<td><label for="usr">User Name</label></td>
+		<td><input type="text" name="usr"/></td>
+		<td><a href="forgotUserId.html">Forgot user ID?</a></td>
+	</tr>
+	<tr>
+		<td><label for="pwd">Password</label></td>
+		<td><input type="password" name="pwd"/></td>
+		<td><a href="forgotPwd.html">Forgot password?</a></td>
+	</tr>
+	<tr>
+		<td></td>
+		<td><input type="submit" id="log_in" value="log in" /></td>
+		<td><a href="registerPage.jsp">Register</a></td>
+	</tr>
+</table>
 </form>
 
 <br>
-<a href="register.html">Register</a>
+
 
 </body>
 </html>

@@ -16,18 +16,21 @@
 	String pwd = request.getParameter("pwd");
 	Connection c = MySQL.connect();
 	Statement st = c.createStatement();
-	ResultSet rs = st.executeQuery("select * from users where user_id = '"+userId+"'");
+	ResultSet rs = st.executeQuery("select * from users where uid = '"+userId+"'");
 	if(rs.next()) {
-		if(rs.getString(2).equals(pwd)){
+		if(rs.getString("pwd").equals(pwd)){
 			session = request.getSession();
 			session.setAttribute("userId", userId);
 			response.sendRedirect("mainUserDashboardPage.jsp"); 
 		}
-		else out.println("wrong password, try again");
+		else {
+			out.println("Wrong password. Try again!");%>
+			<div><a href="loginPage.jsp">Back</a></div><%
+		}
 	}
 	else {
-		out.println("user does not exist, try again");
-		response.sendRedirect("index.html");
+		out.println("User does not exist.");%>
+		<div><a href="loginPage.jsp">Back</a></div><%
 	}
 	%>
 	
