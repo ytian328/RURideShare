@@ -72,7 +72,7 @@ else try{
 						</form>
 					</td>
 					<td>
-						<form action="matchedRequestsPage.jsp" method="post">
+						<form action="matchedOfferPage.jsp" method="post">
 							<input type="hidden" name="match" id="match" value="<%=rs.getString("rid") %>"/>
 							<input type="submit" value="Offers"/>
 						</form>

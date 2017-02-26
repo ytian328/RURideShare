@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Ride Orders as A Passenger</title>
+<title>Ride Orders as A Driver</title>
 </head>
 <body>
 
@@ -28,7 +28,7 @@ else try{
 	<input type="submit" value="Logout"  id="logout">
 	</form>
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
-	<caption>Passenger Orders</caption>
+	<caption>Driver Orders</caption>
 	<tr> 
 		<td>Order Id</td>
 		<td>Departure lot</td>
@@ -37,18 +37,17 @@ else try{
 		<td>Departure time from</td>
 		<td>Departure time to</td>
 		<td>Car info.</td>
-		<td>DriverId</td>
-		<td>Driver email</td>
+		<td>PassengerId</td>
+		<td>Passenger email</td>
 		<td>Order Status</td>
 		<td>Cancel<td>
-		<td>Finish</td>
 		<td>Review</td>
 	</tr>
 	<%
 	Connection c = MySQL.connect();
-	String sql = "select r.dep, r.des, r.date, r.timef, r.timet, o.did, o.plate, m.status, m.mid, m.revstat, u.email2 "
+	String sql = "select r.dep, r.des, r.date, r.timef, r.timet, r.rid, o.plate, m.status, m.mid, m.revstat, u.email2 "
 				+ "from requests r, offers o, matches m, users u "
-				+ "where r.pid=? and m.rid=r.rid and m.oid=o.oid and o.did=u.uid ";
+				+ "where o.did=? and m.rid=r.rid and m.oid=o.oid and r.rid=u.uid ";
 	PreparedStatement st = c.prepareStatement(sql);
 	st.setString(1, session.getAttribute("userId").toString());
 	ResultSet rs = st.executeQuery();
@@ -81,20 +80,10 @@ else try{
 			else %><p>N/A</p>
 		</td>
 		<td><%
-			if(rs.getString("m.status").equals("ACT")){%>
-				<form action="finishOrder.jsp" method="post">
-					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="submit" value="View"/>
-				</form>
-				
-			<%}
-			else %><p>N/A</p>
-		</td>
-		<td><%
 			if(rs.getString("m.status").equals("FNS") && !rs.getString("m.revstat").equals("P") && !rs.getString("m.revstat").equals("B")){ %>
 				<form action="reviewOrderPage.jsp" method="post">
 					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="hidden" name="role" id="role" value="P"/>
+					<input type="hidden" name="role" id="role" value="D"/>
 					<input type="submit" value="View"/>
 				</form>	
 			<%}

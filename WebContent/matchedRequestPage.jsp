@@ -74,8 +74,8 @@ else try{
 			<td><%=rs.getString("timef") %></td>
 			<td><%=rs.getString("timet") %></td>
 			<td>
-				<form action="PassengerInfo.jsp" method="post">
-					<input type="hidden" name="passenger_id" id="passenger_id" value="<%=rs.getString("pid") %>"/>
+				<form action="passengerInfo.jsp" method="post">
+					<input type="hidden" name="uid" id="uid" value="<%=rs.getString("pid") %>"/>
 					<input type="submit" value="View detail"/>
 				</form>
 			</td>

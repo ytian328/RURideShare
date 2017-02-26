@@ -40,8 +40,8 @@
 		<td><a href="rideOfferListPage.jsp">My Active Ride Offers</a></td>
 	</tr>
 	<tr align="center">
-		<td><a href="passengerOrdersPage.jsp">Passenger Order History</a></td>
-		<td><a href="DriverOrdersPage.jsp">Driver Order History</a></td>
+		<td><a href="passengerOrdersPage.jsp">Passenger Orders</a></td>
+		<td><a href="driverOrdersPage.jsp">Driver Orders</a></td>
 	</tr>
 	
 </table>
