@@ -35,7 +35,7 @@ try {
 	PreparedStatement userSt = c.prepareStatement(userSql);
 	userSt.setString(1, uid);
 	ResultSet userRs = userSt.executeQuery();
-	%>	<table>
+	%>	<table align="center" cellpadding="4" cellspacing="2" border="0">
 		<caption>Personal Info.</caption>	
 	<% 
 	if(userRs.next()) {
@@ -107,7 +107,7 @@ try {
 	int count = 1;
 	%>
 	<br>
-		<table>
+		<table align="center" cellpadding="4" cellspacing="2" border="0">
 		<caption>Car Info.</caption>
 	<%
 	while(carRs.next()) {
@@ -139,7 +139,7 @@ try {
 		</table>
 		
 		<form action="addCar.jsp" method="post">
-		<table>
+		<table align="center" cellpadding="4" cellspacing="2" border="0">
 			<tr>
 				<td>Make:</td>
 				<td><input type="text" name="make"></td>
@@ -172,7 +172,7 @@ try {
 		</table>
 		</form>
 
-	<table>
+	<table align="center" cellpadding="4" cellspacing="2" border="0">
 	<caption>User Statistics</caption>
 		<tr>
 			<td>No. of offers posted: </td>

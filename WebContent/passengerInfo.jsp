@@ -10,46 +10,31 @@
 </head>
 <body>
 <%
-response.setHeader("Cache-Control","no-cache");
-response.setHeader("Cache-Control","no-store");
-response.setHeader("Pragma","no-cache");
-response.setDateHeader ("Expires", 0);
+try{
 
-if(session.getAttribute("userId") == null) {
-	out.println("login first");
-	%>
-	<a href="loginPage.jsp">Log in</a>
-	<%
-}
-else try{
-	out.println("welcome, " + session.getAttribute("userId")); %>
-	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
-	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
-	</form> 
-<%	
 	String uid = request.getParameter("uid");
 	Connection c = MySQL.connect();
 	String userSql = "select uid, fname, lname, email2, public, regtime from users where uid=?";
 	PreparedStatement userSt = c.prepareStatement(userSql);
-	userSt.setInt(1, Integer.parseInt(uid));
+	userSt.setString(1, uid);
 	ResultSet userRs = userSt.executeQuery();
 	if(userRs.next()) {
 		%>
 		<table>
+		<caption>Passenger Info.</caption>
 			<tr>
-				<td>UserId</td>
+				<td>UserID:</td>
 				<td><%=userRs.getString("uid") %></td>
 			</tr>
 			<tr>
-				<td>Email</td>
+				<td>Email:</td>
 				<td><%=userRs.getString("email2") %></td>
 			</tr>
 			
 		<% 
 		if(userRs.getString("public").equals("Y")) { %>
 			<tr>
-				<td>Name</td>
+				<td>Name:</td>
 				<td><%=userRs.getString("fname") + " " + userRs.getString("lname") %></td>
 			</tr>
 			<tr>
@@ -57,12 +42,12 @@ else try{
 				<td><%=userRs.getString("regtime") %></td>
 			</tr>
 			<tr>
-				<td>Rating</td>
-				<td>show something here..</td>
+				<td>Rating:</td>
+				<td><%=MySQL.rating(c, uid, "P") %></td>
 			</tr>
 		<%}%>
 		</table>
-		<a href="matchedRequestPage.jsp">Back</a><%
+<%
 		
 	}
 

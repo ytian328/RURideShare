@@ -78,7 +78,7 @@ else try{
 			<td><%=offerRs.getString("c.year").substring(0, 4) + ", " + offerRs.getString("c.make") + "\n" + offerRs.getString("c.model") + ", " + offerRs.getString("c.color") %></td>
 			<td><%=offerRs.getString("o.timef").substring(0, 5) %></td>
 			<td><%=offerRs.getString("o.timet").substring(0, 5) %></td>
-			<td><form action="driverInfo.jsp" method="post">
+			<td><form action="driverInfo.jsp" method="post" target="_blank">
 					<input type="hidden" name="uid" id="uid" value="<%=offerRs.getString("o.did") %>"/>
 					<input type="submit" value="View"/>
 				</form></td>
