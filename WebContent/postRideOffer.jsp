@@ -41,7 +41,7 @@ else {
 	Date d2 = new SimpleDateFormat("yyyy-MM-dd HH:mm").parse(date + " " + timet);
 	if(d1.before(now) || d2.before(d1)) {
 		out.println("Selected date/time is invalid!");
-		%><a href="postRideOfferPages.jsp">Back</a><%
+		%><a href="postRideOfferPage.jsp">Back</a><%
 		return;
 	}
 	try {

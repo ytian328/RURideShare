@@ -69,7 +69,7 @@ else {
 	
 		%>
 		<form action="postRideOffer.jsp" method="post">
-		<table align="center" cellpadding="7" cellspacing="2" border="1">
+		<table align="center" cellpadding="7" cellspacing="2" border="0">
 			<caption>Post A Ride Offer</caption>
 			<tr>
 				<td><label for="campusd">Departure campus</label></td>

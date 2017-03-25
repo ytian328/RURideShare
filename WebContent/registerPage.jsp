@@ -11,7 +11,7 @@
 
 <body>
 <form action="register.jsp" method="post">
-<table align="center" cellpadding="7" cellspacing="2" border="1" width = "400">
+<table align="center" cellpadding="7" cellspacing="2" border="0" width = "400">
 <caption>Register A New Account</caption>
 	<tr>
 		<td><label for="fname">First Name</label></td>
@@ -48,7 +48,7 @@
 	</tr>
 </table>
 <br>
-<table align="center" cellpadding="7" cellspacing="2" border="1" width = "400">	
+<table align="center" cellpadding="7" cellspacing="2" border="0" width = "400">	
 <caption>Car Information (optional)</caption>
 	<tr>
 		<td><label for="maker">Maker</label></td>

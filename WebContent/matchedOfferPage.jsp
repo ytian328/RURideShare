@@ -26,20 +26,33 @@ else try{
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
 	<input type="submit" value="Logout"  id="logout">
-	</form> <%
+	</form>
 	
-	
-	String rid = request.getParameter("match");	
+	<% 
+	String rid = request.getParameter("rid");
 	Connection c = MySQL.connect();
+	//display request info
 	String requestSql = "select * from requests where rid=?";
 	PreparedStatement requestSt = c.prepareStatement(requestSql);
 	requestSt.setInt(1, Integer.parseInt(rid));
 	ResultSet requestRs = requestSt.executeQuery();
-	if(requestRs.next()) {
-		//needs to display this request
+	if(! requestRs.next()) {
+		out.println("Request is not found");
+		%><a href="requestListPage.jsp">Back</a><% 
+	}
+	else {
+		%>
+		<div>
+			<p>Ride request information: </p>
+			<p>Departure lot: <%= requestRs.getString("dep") %>,     Destination lot: <%= requestRs.getString("des")%></p>
+			<p>Date: <%= requestRs.getString("date")%>,    Departure time: <%= requestRs.getString("timef").substring(0, 5) %> - <%= requestRs.getString("timet").substring(0, 5)%></p>
+			<p></p>
+		</div>
+		<%
 	}
 	
 	%>
+	
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
 	<caption>Offers</caption>
 		<tr>
@@ -52,46 +65,32 @@ else try{
 			<td>Accept Offer</td>
 		</tr>
 	
-	<%
-	
-	String sql = "select oid, mid from matches where rid=?";
-	PreparedStatement st = c.prepareStatement(sql);
-	st.setInt(1, Integer.parseInt(rid));
-	ResultSet rs = st.executeQuery();
-	
-	while(rs.next()) {
-		String offerSql = "select * from offers where oid=?";
-		PreparedStatement offerSt = c.prepareStatement(offerSql);
-		offerSt.setInt(1, Integer.parseInt(rid));
-		ResultSet offerRs = offerSt.executeQuery();
-		if(offerRs.next()) {
-			String carSql = "select * from cars where plate=?";
-			PreparedStatement carSt = c.prepareStatement(carSql);
-			carSt.setString(1, rs.getString("plate"));
-			ResultSet carRs = carSt.executeQuery();
-			if(carRs.next()) {
-				%>
-				<tr>
-					<td><%=rs.getString("mid") %></td>
-					<td><%=offerRs.getString("did") %></td>
-					<td><%=carRs.getString("year") + ", " + carRs.getString("brand") + ", " + carRs.getString("model") + ", " + carRs.getString("color") %></td>
-					<td><%=offerRs.getString("timef") %></td>
-					<td><%=offerRs.getString("timet") %></td>
-					<td><form action="driverInfo.jsp" method="post">
-							<input type="hidden" name="uid" id="uid" value="<%=offerRs.getString("did") %>"/>
-							<input type="submit" value="View"/>
-						</form></td>
-					<td><form action="acceptOffer.jsp" method="post">
-							<input type="hidden" name="accept" id="accept" value="<%=rs.getString("mid") %>"/>
-							<input type="submit" value="Accept"/>
-						</form></td>
-				</tr>
-				<%
-			}
-			
-		}
-	}
-	%></table><%
+	<% //get offers from match table	
+	String offerSql = "select m.mid, o.*, c.* from matches m, offers o, cars c where m.rid=? and m.status='ACT' and m.oid = o.oid and o.plate=c.plate";
+	PreparedStatement offerSt = c.prepareStatement(offerSql);
+	offerSt.setInt(1, Integer.parseInt(rid));
+	ResultSet offerRs = offerSt.executeQuery();
+	while(offerRs.next()) {
+		%>
+		<tr>
+			<td><%=offerRs.getString("m.mid") %></td>
+			<td><%=offerRs.getString("o.did") %></td>
+			<td><%=offerRs.getString("c.year").substring(0, 4) + ", " + offerRs.getString("c.make") + "\n" + offerRs.getString("c.model") + ", " + offerRs.getString("c.color") %></td>
+			<td><%=offerRs.getString("o.timef").substring(0, 5) %></td>
+			<td><%=offerRs.getString("o.timet").substring(0, 5) %></td>
+			<td><form action="driverInfo.jsp" method="post">
+					<input type="hidden" name="uid" id="uid" value="<%=offerRs.getString("o.did") %>"/>
+					<input type="submit" value="View"/>
+				</form></td>
+			<td><form action="acceptOffer.jsp" method="post">
+					<input type="hidden" name="accept" id="accept" value="<%=offerRs.getString("m.mid") %>"/>
+					<input type="submit" value="Accept"/>
+			</form></td>
+		</tr>
+		<% 
+	}%>
+	</table>
+<%
 	
 }
 catch(Exception e) {

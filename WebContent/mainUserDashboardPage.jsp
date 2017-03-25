@@ -26,6 +26,7 @@
 <form action="logout.jsp" method="post">
 <input type="submit" value="Logout"/>
 </form>
+
 <table align="center" cellpadding="7" cellspacing="2" border="1">
 	<tr align="center">
 		<td>As Passenger</td>
@@ -40,13 +41,17 @@
 		<td><a href="rideOfferListPage.jsp">My Active Ride Offers</a></td>
 	</tr>
 	<tr align="center">
-		<td><a href="passengerOrdersPage.jsp">Passenger Orders</a></td>
-		<td><a href="driverOrdersPage.jsp">Driver Orders</a></td>
+		<td><a href="passengerOrdersPage.jsp">Passenger Trips</a></td>
+		<td><a href="driverOrdersPage.jsp">Driver Trips</a></td>
+	</tr>
+	<tr align="center">
+		<td><a href="passengerOrderHistoryPage.jsp">Passenger Trip History</a></td>
+		<td><a href="driverOrderHistoryPage.jsp">Driver Trip History</a></td>
 	</tr>
 	
 </table>
 <%
-}
+	}
 %>
 </body>
 </html>

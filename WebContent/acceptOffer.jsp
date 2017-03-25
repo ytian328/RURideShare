@@ -37,7 +37,7 @@ else try{
 	Connection c = MySQL.connect();
 	
 	
-	String mSql = "select pid, did from matches where mid=?";
+	String mSql = "select rid, oid from matches where mid=?";
 	PreparedStatement mSt = c.prepareStatement(mSql);
 	mSt.setInt(1, Integer.parseInt(mid));
 	ResultSet rs = mSt.executeQuery();

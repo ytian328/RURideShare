@@ -35,7 +35,7 @@ else try{
 	st.setString(1, userId);
 	ResultSet rs = st.executeQuery();
 	%>
-	<table align="center" cellpadding="7" cellspacing="2" border="1">
+	<table align="center" cellpadding="7" cellspacing="2" border="0">
 			<caption>Current Active Requests (Single Ride)</caption>
 				<tr align="center">
 					<td>Request ID</td>
@@ -73,7 +73,7 @@ else try{
 					</td>
 					<td>
 						<form action="matchedOfferPage.jsp" method="post">
-							<input type="hidden" name="match" id="match" value="<%=rs.getString("rid") %>"/>
+							<input type="hidden" name="rid" id="rid" value="<%=rs.getString("rid") %>"/>
 							<input type="submit" value="Offers"/>
 						</form>
 					</td>

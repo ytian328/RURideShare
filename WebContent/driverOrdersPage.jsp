@@ -40,57 +40,41 @@ else try{
 		<td>PassengerId</td>
 		<td>Passenger email</td>
 		<td>Order Status</td>
-		<td>Cancel<td>
-		<td>Review</td>
+		<td>Cancel</td>
 	</tr>
 	<%
 	Connection c = MySQL.connect();
-	String sql = "select r.dep, r.des, r.date, r.timef, r.timet, r.rid, o.plate, m.status, m.mid, m.revstat, u.email2 "
-				+ "from requests r, offers o, matches m, users u "
-				+ "where o.did=? and m.rid=r.rid and m.oid=o.oid and r.rid=u.uid ";
+	String sql = "select r.timef, r.timet, u.email2, u.uid, o.*, c.*, m.mid, m.status "
+			+ "from requests r, offers o, matches m, users u, cars c "
+			+ "where m.status='CFM' and m.oid=o.oid and o.did=? and m.rid=r.rid and  r.pid=u.uid and c.plate = o.plate";
 	PreparedStatement st = c.prepareStatement(sql);
 	st.setString(1, session.getAttribute("userId").toString());
 	ResultSet rs = st.executeQuery();
 	while(rs.next()) {
-		String carSql = "select * from cars where plate=?";
-		PreparedStatement carSt = c.prepareStatement(carSql);
-		carSt.setString(1, rs.getString("o.plate"));
-		ResultSet carRs = carSt.executeQuery();
-		if(carRs.next()) {
 			%>
 	<tr>
 		<td><%=rs.getString("m.mid") %></td>
-		<td><%=rs.getString("r.dep") %></td>
-		<td><%=rs.getString("r.des") %></td>
-		<td><%=rs.getString("r.date") %></td>
+		<td><%=rs.getString("o.dep") %></td>
+		<td><%=rs.getString("o.des") %></td>
+		<td><%=rs.getString("o.date") %></td>
 		<td><%=rs.getTime("r.timef").after(rs.getTime("o.timef"))? rs.getString("r.timef") : rs.getString("o.timef")%></td>
 		<td><%=rs.getTime("r.timet").after(rs.getTime("o.timet"))? rs.getString("o.timet") : rs.getString("r.timet") %></td>
-		<td><%=carRs.getString("year") + ", " + carRs.getString("brand") + ", " 
-			+ carRs.getString("model") + ", " + carRs.getString("color") + "/nPlate:" + carRs.getString("plate") %></td>
-		<td><%=rs.getString("o.did") %></td>
+		<td><%=rs.getString("c.year").substring(0,4) + ", " + rs.getString("c.make") + ", " 
+			+ rs.getString("c.model") + ", " + rs.getString("c.color") + "\nPlate:" + rs.getString("c.plate") %></td>
+		<td><%=rs.getString("u.uid") %></td>
 		<td><%=rs.getString("u.email2") %></td>
 		<td><%=rs.getString("m.status") %></td>
 		<td><%
-			if(rs.getString("m.status").equals("ACT")){ %>
+			if(rs.getString("m.status").equals("CFM")){ %>
 				<form action="cancelOrder.jsp" method="post">
 					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="submit" value="View"/>
+					<input type="submit" value="Cancel"/>
 				</form>
 			<%}
 			else %><p>N/A</p>
 		</td>
-		<td><%
-			if(rs.getString("m.status").equals("FNS") && !rs.getString("m.revstat").equals("P") && !rs.getString("m.revstat").equals("B")){ %>
-				<form action="reviewOrderPage.jsp" method="post">
-					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="hidden" name="role" id="role" value="D"/>
-					<input type="submit" value="View"/>
-				</form>	
-			<%}
-			else %><p>N/A</p>
-		</td>
 	</tr>
-		<%}
+		<%
 	}%>
 	</table>
 <% 	

@@ -35,7 +35,7 @@ else try{
 	st.setString(1, userId);
 	ResultSet rs = st.executeQuery();
 	%>
-	<table align="center" cellpadding="7" cellspacing="2" border="1">
+	<table align="center" cellpadding="7" cellspacing="2" border="0">
 			<caption>Current Offers (Single Ride)</caption>
 				<tr align="center">
 					<td>Offer ID</td>

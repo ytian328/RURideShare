@@ -58,7 +58,7 @@ else {
 	
 		%>
 		<form action="requestRide.jsp" method="post">
-		<table align="center" cellpadding="7" cellspacing="2" border="1">
+		<table align="center" cellpadding="7" cellspacing="2" border="0">
 			<caption>Request A Ride</caption>
 			<tr>
 				<td><label for="campusd">Departure campus</label></td>
@@ -99,7 +99,7 @@ else {
 			<tr>
 				<td><label for="lota">Destination lot</label></td>
 				<td><select name="lota" id="lota">
-			<% sql = "select distinct lot from locations";
+			<% sql = "select distinct lot from locations order by lot ";
 				st = c.prepareStatement(sql);
 				rs = st.executeQuery();
 				while(rs.next()) {%>

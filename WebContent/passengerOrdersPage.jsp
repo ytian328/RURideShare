@@ -27,6 +27,7 @@ else try{
 	<form action="logout.jsp" method="post">
 	<input type="submit" value="Logout"  id="logout">
 	</form>
+	
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
 	<caption>Passenger Orders</caption>
 	<tr> 
@@ -39,16 +40,14 @@ else try{
 		<td>Car info.</td>
 		<td>DriverId</td>
 		<td>Driver email</td>
-		<td>Order Status</td>
-		<td>Cancel<td>
+		<td>Cancel order</td>
 		<td>Finish</td>
-		<td>Review</td>
 	</tr>
 	<%
 	Connection c = MySQL.connect();
-	String sql = "select r.dep, r.des, r.date, r.timef, r.timet, o.did, o.plate, m.status, m.mid, m.revstat, u.email2 "
+	String sql = "select r.dep, r.des, r.date, r.timef, r.timet, o.timef, o.timet, o.did, o.plate, m.status, m.mid, m.revstat, u.email2 "
 				+ "from requests r, offers o, matches m, users u "
-				+ "where r.pid=? and m.rid=r.rid and m.oid=o.oid and o.did=u.uid ";
+				+ "where m.status='CFM' and r.pid=? and m.rid=r.rid and m.oid=o.oid and o.did=u.uid ";
 	PreparedStatement st = c.prepareStatement(sql);
 	st.setString(1, session.getAttribute("userId").toString());
 	ResultSet rs = st.executeQuery();
@@ -66,40 +65,26 @@ else try{
 		<td><%=rs.getString("r.date") %></td>
 		<td><%=rs.getTime("r.timef").after(rs.getTime("o.timef"))? rs.getString("r.timef") : rs.getString("o.timef")%></td>
 		<td><%=rs.getTime("r.timet").after(rs.getTime("o.timet"))? rs.getString("o.timet") : rs.getString("r.timet") %></td>
-		<td><%=carRs.getString("year") + ", " + carRs.getString("brand") + ", " 
-			+ carRs.getString("model") + ", " + carRs.getString("color") + "/nPlate:" + carRs.getString("plate") %></td>
+		<td><%=carRs.getString("year").substring(0, 4) + ", " + carRs.getString("make") + ", " 
+			+ carRs.getString("model") + ", " + carRs.getString("color") + " Plate:" + carRs.getString("plate") %></td>
 		<td><%=rs.getString("o.did") %></td>
 		<td><%=rs.getString("u.email2") %></td>
-		<td><%=rs.getString("m.status") %></td>
-		<td><%
-			if(rs.getString("m.status").equals("ACT")){ %>
-				<form action="cancelOrder.jsp" method="post">
-					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="submit" value="View"/>
-				</form>
-			<%}
-			else %><p>N/A</p>
+		<td>
+			<form action="cancelOrder.jsp" method="post">
+				<input type="hidden" name="mid" value="<%=rs.getString("m.mid") %>"/>
+				<input type="hidden" name="returnPage" value="passengerOrdersPage.jsp"/>
+
+				<input type="submit" value="Cancel"/>
+			</form>
 		</td>
-		<td><%
-			if(rs.getString("m.status").equals("ACT")){%>
-				<form action="finishOrder.jsp" method="post">
-					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="submit" value="View"/>
-				</form>
-				
-			<%}
-			else %><p>N/A</p>
+		<td>
+			<form action="finishOrder.jsp" method="post">
+				<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
+				<input type="hidden" name="returnPage" value="passengerOrdersPage.jsp"/>
+				<input type="submit" value="Confirm"/>
+			</form>
 		</td>
-		<td><%
-			if(rs.getString("m.status").equals("FNS") && !rs.getString("m.revstat").equals("P") && !rs.getString("m.revstat").equals("B")){ %>
-				<form action="reviewOrderPage.jsp" method="post">
-					<input type="hidden" name="mid" id="mid" value="<%=rs.getString("m.mid") %>"/>
-					<input type="hidden" name="role" id="role" value="P"/>
-					<input type="submit" value="View"/>
-				</form>	
-			<%}
-			else %><p>N/A</p>
-		</td>
+
 	</tr>
 		<%}
 	}%>
