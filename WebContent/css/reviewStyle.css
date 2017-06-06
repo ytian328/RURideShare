@@ -1,0 +1,48 @@
+body { 
+	font-family: verdana; 
+}
+
+div {
+	background: #ccc;
+	text-align:right;
+}
+
+/* unvisited link */
+a:link {
+    color: black;
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+    color: hotpink;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+}
+
+input[type=submit] {
+    padding:1px 1px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    font-family: verdana;
+    font-size: 17px;
+}
+
+textarea {
+	padding:5px; 
+    border:1px solid #ccc; 
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+}

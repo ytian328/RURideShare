@@ -1,0 +1,78 @@
+* { 
+	margin: 0; 
+	padding: 0; 
+	
+}
+body { 
+	font-family: verdana; 
+}
+#page-wrap {
+	margin: 50px;
+}
+
+p {
+	margin: 5px 0;
+}
+
+input[type=submit] {
+    padding:1px 1px; 
+    background:#ccc; 
+    border:0 none;
+    cursor:pointer;
+    -webkit-border-radius: 5px;
+    border-radius: 5px; 
+    font-family: verdana;
+    font-size: 17px;
+}
+	/* 
+	Generic Styling, for Desktops/Laptops 
+	*/
+	table { 
+		width: 600px; 
+		border-collapse: collapse; 
+		align: center;
+	}
+
+	/* Zebra striping */
+	tr:nth-of-type(even) { 
+		background: #eee; 
+	}
+	thead { 
+		background: #333; 
+		color: white; 
+		font-weight: bold; 
+	}
+	td, thead { 
+		padding: 16px; 
+		border: 1px solid #ccc; 
+		text-align: left; 
+		font-size: 20px;
+	}
+	
+
+/* unvisited link */
+a:link {
+    color: black;
+    text-decoration: none;
+}
+
+/* visited link */
+a:visited {
+    color: black;
+    text-decoration: none;
+}
+
+/* mouse over link */
+a:hover {
+    color: hotpink;
+}
+
+/* selected link */
+a:active {
+    color: blue;
+}
+
+div {
+	background: #ccc;
+	text-align:right;
+}
