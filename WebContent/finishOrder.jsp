@@ -21,14 +21,35 @@ if(session.getAttribute("userId") == null) {
 <%
 }
 else {
-	int mid = Integer.parseInt(request.getParameter("mid"));
-	String returnPage = request.getParameter("returnPage");
-	Connection c = MySQL.connect();
-	String sql = "update matches set status='FNS' where mid=?";
-	PreparedStatement st = c.prepareStatement(sql);
-	st.setInt(1, mid);
-	st.execute();
-	response.sendRedirect(returnPage);
+	try{
+		int mid = Integer.parseInt(request.getParameter("mid"));
+		String returnPage = request.getParameter("returnPage");
+		Connection c = MySQL.connect();
+		String sql = "update matches set status='FNS' where mid=?";
+		PreparedStatement st = c.prepareStatement(sql);
+		st.setInt(1, mid);
+		st.execute();
+		
+		sql = "select u.uid, u.treward from users u, matches m, offers o where m.mid=? and o.oid=m.oid and o.did=u.uid";
+		st = c.prepareStatement(sql);
+		st.setInt(1, mid);
+		ResultSet rs = st.executeQuery();
+		if(rs.next()) {
+			int nReward = 1;
+			sql = "update users set treward=?, nreward=? where uid=?";
+			st = c.prepareStatement(sql);
+			st.setInt(1, rs.getInt("u.treward") + nReward);
+			st.setInt(2, nReward);
+			st.setString(3, rs.getString("u.uid"));
+			st.execute();
+		}
+		
+				
+		response.sendRedirect(returnPage);
+	}
+	catch(Exception e) {
+		out.print(e);
+	}
 }
 %>
 

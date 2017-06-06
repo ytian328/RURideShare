@@ -21,14 +21,20 @@ if(session.getAttribute("userId") == null) {
 <%
 }
 else {
-	int mid = Integer.parseInt(request.getParameter("mid"));
-	String returnPage = request.getParameter("returnPage");
-	Connection c = MySQL.connect();
-	String sql = "update matches set status='CNL' where mid=?";
-	PreparedStatement st = c.prepareStatement(sql);
-	st.setInt(1, mid);
-	st.execute();
-	response.sendRedirect(returnPage);
+	try{
+		int mid = Integer.parseInt(request.getParameter("mid"));
+		String returnPage = request.getParameter("returnPage");
+		Connection c = MySQL.connect();
+		String sql = "update matches set status='CNL' where mid=?";
+		PreparedStatement st = c.prepareStatement(sql);
+		st.setInt(1, mid);
+		st.execute();
+		response.sendRedirect(returnPage);
+	}
+	catch(Exception e) {
+		out.print(e);
+	}
+	
 }
 %>
 

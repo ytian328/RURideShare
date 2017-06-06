@@ -27,11 +27,40 @@
 	String clr = request.getParameter("clr");
 	String psgr = request.getParameter("psgr");
 	String plt = request.getParameter("plt");
-	
-	if(!pwd.equals(pwd2)) {
-		out.print("password does not match");
-	}
+	boolean validIDEmail = true;
+	//check userid and email are unique
 	try{
+		Connection c = MySQL.connect();
+		String sql = "select uid, email from users";
+		PreparedStatement st = c.prepareStatement(sql);
+		ResultSet rs = st.executeQuery();
+		while(rs.next()) {
+			if(rs.getString("uid").equals(userId)) {
+				out.print("User ID has been registered!");
+				validIDEmail = false;
+				break;
+			}
+			if(rs.getString("email").equals(email)){
+				out.print("Email address has been registered!");
+				validIDEmail = false;
+				break;
+			}
+		}
+		
+	}
+	catch(SQLException e) {
+		out.println("SQLException: " + e.getMessage());
+	}
+	if(validIDEmail && !pwd.equals(pwd2)) {
+		out.print("Password does not match!");
+	}
+	else if(validIDEmail && !Validation.validEmail(email)) {
+		out.print("Email address is not valid!");
+	}
+	else if(validIDEmail && ! Validation.validPassword(pwd)) {
+		out.print("Password is not valid");
+	}
+	else if(validIDEmail) try{
 		Connection c = MySQL.connect();
 	
 		String sql = "insert into users (uid, fname, lname, email, email2, pwd, public, nreward, treward) values (?,?,?,?,?,?,?,?,?)";

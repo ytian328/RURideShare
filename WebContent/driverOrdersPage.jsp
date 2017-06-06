@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/historyStyle.css">
 <title>Ride Orders as A Driver</title>
 </head>
 <body>
@@ -22,18 +23,26 @@ if(session.getAttribute("userId") == null) {
 	<%
 }
 else try{
-	out.println("welcome, " + session.getAttribute("userId")); %>
+	%><div><% 
+	out.println("Welcome, ");
+%>
+	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
+		<input type="submit" value="Logout"/>
 	</form>
+	</div>
+	<p>
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
 	<caption>Driver Orders</caption>
-	<tr> 
+	<thead><tr> 
 		<td>Order Id</td>
-		<td>Departure lot</td>
-		<td>Destination lot</td>
+		<td>From lot</td>
+		<td>To lot</td>
 		<td>Date</td>
+		<td>Regular</td>
 		<td>Departure time from</td>
 		<td>Departure time to</td>
 		<td>Car info.</td>
@@ -41,7 +50,8 @@ else try{
 		<td>Passenger email</td>
 		<td>Order Status</td>
 		<td>Cancel</td>
-	</tr>
+	</tr></thead>
+	<tbody>
 	<%
 	Connection c = MySQL.connect();
 	String sql = "select r.timef, r.timet, u.email2, u.uid, o.*, c.*, m.mid, m.status "
@@ -51,12 +61,17 @@ else try{
 	st.setString(1, session.getAttribute("userId").toString());
 	ResultSet rs = st.executeQuery();
 	while(rs.next()) {
+		Date now = new Date();
+		String timet = rs.getTime("r.timet").after(rs.getTime("o.timet"))? rs.getString("o.timet") : rs.getString("r.timet");
+		Date date = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(rs.getString("date") + " " + timet);
+		if(date.after(now)) {
 			%>
 	<tr>
 		<td><%=rs.getString("m.mid") %></td>
 		<td><%=rs.getString("o.dep") %></td>
 		<td><%=rs.getString("o.des") %></td>
 		<td><%=rs.getString("o.date") %></td>
+		<td><%=rs.getString("o.regular") %></td>
 		<td><%=rs.getTime("r.timef").after(rs.getTime("o.timef"))? rs.getString("r.timef") : rs.getString("o.timef")%></td>
 		<td><%=rs.getTime("r.timet").after(rs.getTime("o.timet"))? rs.getString("o.timet") : rs.getString("r.timet") %></td>
 		<td><%=rs.getString("c.year").substring(0,4) + ", " + rs.getString("c.make") + ", " 
@@ -75,8 +90,16 @@ else try{
 		</td>
 	</tr>
 		<%
+		}
+		else {
+			String markExp = "update matches set status='EXP' where mid=?";
+			PreparedStatement markExpSt = c.prepareStatement(markExp);
+			markExpSt.setString(1, rs.getString("m.mid"));
+			markExpSt.execute();
+		}
+
 	}%>
-	</table>
+	</tbody></table>
 <% 	
 }
 catch(Exception e) {

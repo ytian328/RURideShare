@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/reviewStyle.css">
 <title>Review</title>
 </head>
 <body>
@@ -21,12 +22,19 @@ if(session.getAttribute("userId") == null) {
 <%
 }
 else {
-	out.println("welcome, " + session.getAttribute("userId"));
+	%><div><% 
+	out.println("Welcome, ");
 %>
+	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
 		<input type="submit" value="Logout"/>
 	</form>
+	</div>
+	<p>
+	<h1>Passenger's Review</h1>
 <%
 	String mid=request.getParameter("mid");
 	String role = request.getParameter("role");
@@ -44,7 +52,7 @@ else {
 			String pComm = pRs.getString("comm");
 			String rtime = pRs.getString("rtime");
 			%>
-			<p>Passenger's Review</p>
+			
 			<p>Rating: <%=pRating %> </p>
 			<p><%=rtime %> </p>
 			<%
@@ -81,7 +89,9 @@ else {
 			//display no passenger review info
 			out.println("The passenger has not rated this trip yet!");
 		}
-		
+		%>
+		<h1>Driver's Review</h1>
+		<%
 		String dSql = "select * from reviews where mid=? and role='d'";
 		PreparedStatement dSt = c.prepareStatement(dSql);
 		dSt.setInt(1, Integer.parseInt(mid));	
@@ -92,7 +102,7 @@ else {
 			String dComm = dRs.getString("comm");
 			String rtime = dRs.getString("rtime");
 			%>
-			<p>Driver's Review</p>
+			
 			<p>Rating: <%=dRating %> </p>
 			<p><%=rtime %> </p>
 			<%
@@ -114,7 +124,7 @@ else {
 					<input type="radio" name="rating" value=3> 3
 					<input type="radio" name="rating" value=4> 4
 					<input type="radio" name="rating" value=5 checked> 5 </p>
-				<p>      
+				</p>      
 					<textarea name="comment" rows="6" cols="50" maxlength="300">Comment here...</textarea>
 					<input type="hidden" name="role" value="d">
 					<input type="hidden" name="mid" value=<%=mid%>>
@@ -128,13 +138,16 @@ else {
 			//display no driver review info
 			out.println("The driver has not rated this trip yet!");
 		}
-		
+		%>
+		<div>
+		<%
 		if(role.equals("p")) {
-			%><a href="passengerOrderHistoryPage.jsp">Back</a><%
+			%><a href="passengerOrderHistoryPage.jsp" text-align="right">Back</a><%
 		}
 		else {
 			%><a href="driverOrderHistoryPage.jsp">Back</a><%
 		}
+		%></div><% 
 		
 		
 	}

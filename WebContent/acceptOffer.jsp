@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/historyStyle.css">
 <title>Accept Offer</title>
 </head>
 <body>
@@ -23,12 +24,18 @@ if(session.getAttribute("userId") == null) {
 	<%
 }
 else try{
-	out.println("welcome, " + session.getAttribute("userId")); %>
+	%><div><% 
+	out.println("Welcome, ");
+%>
 	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
-	</form> <%
+		<input type="submit" value="Logout"/>
+	</form>
+	</div>
+	<p> <%
 
 	String mid = request.getParameter("accept");
 	//set match status as CFM
@@ -58,10 +65,8 @@ else try{
 		mCfmSt.executeUpdate();
 	}
 	%>
-	<div>
-		<p>Your trip <%= mid%> is confirmed! Please go to <a href="passengerOrdersPage.jsp">passenger orders</a> to manage your orders</p>
-		<p>#####################I am ads######################</p>
-	</div>
+		<p>Your trip <%= mid%> is confirmed! Please go to <b><a href="passengerOrdersPage.jsp">passenger orders</a></b> to manage your orders.</p>
+
 	<%
 
 }

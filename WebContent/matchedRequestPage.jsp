@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/historyStyle.css">
 <title>Matched Requests</title>
 </head>
 <body>
@@ -21,11 +22,18 @@ if(session.getAttribute("userId") == null) {
 	<%
 }
 else try{
-	out.println("welcome, " + session.getAttribute("userId")); %>
+	%><div><% 
+	out.println("Welcome, ");
+%>
+	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
-	</form> 
+		<input type="submit" value="Logout"/>
+	</form>
+	</div>
+	<p>
 <%	
 	Connection c = MySQL.connect();
 	String offerSql = "select * from offers where oid=?";
@@ -38,33 +46,37 @@ else try{
 	}
 	else {
 		%>
-		<div>
-			<p>Ride offer information: </p>
+
+			<h1>Ride offer information: </h1>
 			<p>Departure lot: <%= offerRs.getString("dep") %>,     Destination lot: <%= offerRs.getString("des")%></p>
-			<p>Date: <%= offerRs.getString("date")%>,    Departure time: <%= offerRs.getString("timef") %> - <%= offerRs.getString("timet")%></p>
+			<p>Date: <%= offerRs.getString("date")%>,   Departure time: <%= offerRs.getString("timef") %> - <%= offerRs.getString("timet")%></p>
+			<p>Regular: <%=offerRs.getString("regular") %></p>
 			<p></p>
-		</div>
+
 		<%
-		String sql = "select * from requests where status='ACT' and dep =? and des=? and date=? and timef<=? and timet>=?";
+		String sql = "select * from requests where status='ACT' and dep =? and des=? and date=? and timef<=? and timet>=? and regular=? and pid!=?";
 		PreparedStatement st = c.prepareStatement(sql);
-		st.setInt(1, offerRs.getInt("dep"));
-		st.setInt(2, offerRs.getInt("des"));
+		st.setString(1, offerRs.getString("dep"));
+		st.setString(2, offerRs.getString("des"));
 		st.setDate(3, offerRs.getDate("date"));
 		st.setTime(4, offerRs.getTime("timet"));
 		st.setTime(5, offerRs.getTime("timef"));
+		st.setString(6, offerRs.getString("regular"));
+		st.setString(7, offerRs.getString("did"));
 		ResultSet rs = st.executeQuery();
 		%>
 		
 		<table align="center" cellpadding="7" cellspacing="2" border="1">
 		<caption>Matched Request</caption>
-			<tr align="center">
+			<thead><tr align="center">
 				<td>Request ID</td>
 				<td>Passenger</td>
 				<td>Departure time from</td>
 				<td>Departure time to</td>
 				<td>Passenger info</td>
 				<td>Send Offer</td>				
-			</tr>
+			</tr></thead>
+			<tbody>
 	<%
 	while(rs.next()) {
 		%>
@@ -90,7 +102,7 @@ else try{
 		<% 
 	}
 	%>
-	</table>
+	</tbody></table>
 	<%
 		
 	}

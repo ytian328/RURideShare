@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/historyStyle.css">
 <title>Matched Offers</title>
 </head>
 <body>
@@ -21,12 +22,18 @@ if(session.getAttribute("userId") == null) {
 	<%
 }
 else try{
-	out.println("welcome, " + session.getAttribute("userId")); %>
+	%><div><% 
+	out.println("Welcome, ");
+%>
 	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
+		<input type="submit" value="Logout"/>
 	</form>
+	</div>
+	<p>
 	
 	<% 
 	String rid = request.getParameter("rid");
@@ -42,12 +49,13 @@ else try{
 	}
 	else {
 		%>
-		<div>
-			<p>Ride request information: </p>
+		
+			<h1>Ride request information: </h1>
 			<p>Departure lot: <%= requestRs.getString("dep") %>,     Destination lot: <%= requestRs.getString("des")%></p>
 			<p>Date: <%= requestRs.getString("date")%>,    Departure time: <%= requestRs.getString("timef").substring(0, 5) %> - <%= requestRs.getString("timet").substring(0, 5)%></p>
+			<p>Regular: <%= requestRs.getString("regular")%></p>
 			<p></p>
-		</div>
+		
 		<%
 	}
 	
@@ -55,7 +63,7 @@ else try{
 	
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
 	<caption>Offers</caption>
-		<tr>
+		<thead><tr>
 			<td>Match Id</td>
 			<td>Driver Id</td>
 			<td>Car Info</td>
@@ -63,7 +71,8 @@ else try{
 			<td>Departure Time To</td>
 			<td>View Driver Info.</td>
 			<td>Accept Offer</td>
-		</tr>
+		</tr></thead>
+		<tbody></tbody>
 	
 	<% //get offers from match table	
 	String offerSql = "select m.mid, o.*, c.* from matches m, offers o, cars c where m.rid=? and m.status='ACT' and m.oid = o.oid and o.plate=c.plate";
@@ -89,6 +98,7 @@ else try{
 		</tr>
 		<% 
 	}%>
+	</tbody>
 	</table>
 <%
 	

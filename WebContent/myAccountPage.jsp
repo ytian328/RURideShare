@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/postStyle.css">
 <title>My Account</title>
 </head>
 <body>
@@ -21,11 +22,18 @@ if(session.getAttribute("userId") == null) {
 	<%
 }
 else{
-	out.println("welcome, " + session.getAttribute("userId")); %>
+	%><div><% 
+	out.println("Welcome, ");
+%>
+	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
+		<input type="submit" value="Logout"/>
 	</form>
+	</div>
+	<p>
 <% 
 }
 try {
@@ -56,18 +64,10 @@ try {
 				<td>Register time: </td>
 				<td><%=userRs.getString("regtime") %></td>
 			</tr>
-			<tr>
+<%-- 			<tr>
 				<td>Last login time:</td>
 				<td><%=userRs.getString("login") %></td>
-			</tr>
-			<tr>
-				<td>New reward:</td>
-				<td><%="$ " + userRs.getString("nreward") %></td>
-			</tr>
-			<tr>
-				<td>Total reward:</td>
-				<td><%="$ " + userRs.getString("treward") %></td>
-			</tr>
+			</tr> --%>
 			<tr>
 				<td>Public:</td>
 				<td>

@@ -4,6 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/mainStyle.css">
 <title>Main User Dashboard</title>
 </head>
 <body>
@@ -20,18 +21,26 @@
 <%
 	}
 	else {
-		out.println("welcome, " + session.getAttribute("userId"));
-%>
-<a href="myAccountPage.jsp">My Account</a>
-<form action="logout.jsp" method="post">
-<input type="submit" value="Logout"/>
-</form>
+		%><div><% 
+		out.println("Welcome, ");
+	%>
+		
+		<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+		<p>
+		<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
+		<form action="logout.jsp" method="post">
+			<input type="submit" value="Logout"/>
+		</form>
+		</div>
+		<p>
 
-<table align="center" cellpadding="7" cellspacing="2" border="1">
+<table align="center">
+	<thead>
 	<tr align="center">
 		<td>As Passenger</td>
 		<td>As Driver</td>
 	</tr>
+	</thead>
 	<tr align="center">
 		<td><a href="requestRidePage.jsp">Request Ride</a></td>
 		<td><a href="postRideOfferPage.jsp">Post Ride Offer</a></td>

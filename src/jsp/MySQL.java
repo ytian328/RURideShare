@@ -7,8 +7,8 @@ public class MySQL {
 	public static Connection connect() {
 		try{
 			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			return DriverManager.getConnection("jdbc:mysql://yuan.cbaewo2xmbsd.us-east-1.rds.amazonaws.com:3306/test", "admin", "adminadmin");
-			//return DriverManager.getConnection("jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false", "root", "root");
+			
+			return DriverManager.getConnection("jdbc:mysql://localhost:3306/test?autoReconnect=true&useSSL=false", "root", "root");
 		}
 		catch (Exception e){
 			throw new Error(e);

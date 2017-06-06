@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/postStyle.css">
 <title>Register</title>
 </head>
 <body>
@@ -37,6 +38,10 @@
 		<td><label for="pwd">Password</label></td>
 		<td><input type="password" name="pwd" id="pwd" maxlength=20/></td>
 	</tr>
+	<tr>
+		<td><font size="1" color="red">Password should be 6-20 letters long, containing both alphabets and digits.</font></td>
+	</tr>
+	
 	<tr>
 		<td><label for="pwd2">Confirm Password</label></td>
 		<td><input type="password" name="pwd2" id="pwd2" maxlength=20/></td>
@@ -75,7 +80,12 @@
 	</tr>
 	<tr>
 		<td><label for="psgr">Max No. of Passengers</label></td>
-		<td><input type="text" name="psgr" id="psgr"></td>
+		<td><select name="psgr" id="psgr">
+			<option>1</option>
+			<option>2</option>
+			<option>3</option>
+			<option>4</option>
+		</td>
 	</tr>
 	<tr>
 		<td><label for="plt">Plate No.</label></td>
@@ -83,7 +93,7 @@
 	</tr>
 </table>
 <br>
-<div align="center"><input type="submit" name="submit" value="register" id="reg"></div>
+<p align="center"><input type="submit" name="submit" value="register" id="reg"></p>
 </form>
 
 </body>

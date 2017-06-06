@@ -4,7 +4,8 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<link rel="stylesheet" href="css/historyStyle.css">
 <title>Passenger Trip History</title>
 </head>
 <body>
@@ -22,27 +23,36 @@ if(session.getAttribute("userId") == null) {
 <%
 }
 else {
-	out.println("welcome, " + session.getAttribute("userId"));
+	%><div><% 
+	out.println("Welcome, ");
 %>
+	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
 		<input type="submit" value="Logout"/>
 	</form>
-	
+	</div>
+	<p>
+
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
 	<caption>Passenger Trip History</caption>
+	<thead>
 	<tr> 
 		<td>Order ID</td>
-		<td>Departure lot</td>
-		<td>Destination lot</td>
+		<td>From lot</td>
+		<td>To lot</td>
 		<td>Date</td>
 		<td>Departure time window</td>
 		<td>Car info.</td>
-		<td>DriverId</td>
+		<td>Driver ID</td>
 		<td>Driver email</td>
 		<td>Status</td>
 		<td>Review</td>
 	</tr>
+	</thead>
+	<tbody>
 	
 <%
 
@@ -94,10 +104,9 @@ else {
 			
 		</tr>
 		<% 
-		
-		
 		}
-	%>
+		%>
+	</tbody>
 	</table>
 	<%
 

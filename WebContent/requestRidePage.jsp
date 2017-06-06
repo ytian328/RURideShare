@@ -8,6 +8,7 @@
 <script type="text/javascript" src="jquery/jquery.js"></script>
 <script type="text/javascript" src="jquery/jquery-ui.js"></script>
 <link type="text/css" rel="stylesheet" href="jquery/jquery-ui.css" />
+<link rel="stylesheet" href="css/postStyle.css">
 <script type="text/javascript">
 	$(function(){
 		$("#date").datepicker({
@@ -23,6 +24,26 @@
 		$("#timef").timepicker();
 		$("#timet").timepicker();
 	});
+	
+	var lots = {
+			BUS:[1,2,3,4],
+			LIV:[5,6,7,8],
+			CAC:[9,10,11],
+			COK:[12,13],
+			DGL:[14,15]
+	};
+	
+
+	function changeLot(value, id) {
+        if (value.length == 0) document.getElementById("category").innerHTML = "<option></option>";
+		else {
+		    var lotOptions = "";
+		    for (lotId in lots[value]) {
+		    lotOptions += "<option>" + lots[value][lotId] + "</option>";
+		    }
+		    document.getElementById(id).innerHTML = lotOptions;
+		}
+	};
 </script>
 
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
@@ -44,12 +65,18 @@ if(session.getAttribute("userId") == null) {
 	<%
 }
 else {
-	out.println("welcome, " + session.getAttribute("userId")); %>
+	%><div><% 
+	out.println("Welcome, ");
+%>
 	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
-	<input type="submit" value="Logout"  id="logout">
+		<input type="submit" value="Logout"/>
 	</form>
+	</div>
+	<p>
 	
 	<% 
 	try{
@@ -58,11 +85,12 @@ else {
 	
 		%>
 		<form action="requestRide.jsp" method="post">
-		<table align="center" cellpadding="7" cellspacing="2" border="0">
+		<table align="center" >
 			<caption>Request A Ride</caption>
 			<tr>
 				<td><label for="campusd">Departure campus</label></td>
-				<td><select name="campusd" id="campusd">
+				<td><select name="campusd" id="campusd" onChange="changeLot(this.value, 'lotd')">
+				<option value="" disabled selected>Select</option>
 			<% sql = "select distinct campus from locations";
 				PreparedStatement st = c.prepareStatement(sql);
 				ResultSet rs = st.executeQuery();
@@ -75,18 +103,13 @@ else {
 			<tr>
 				<td><label for="lotd">Departure lot</label></td>
 				<td><select name="lotd" id="lotd">
-			<% sql = "select distinct lot from locations";
-				st = c.prepareStatement(sql);
-				rs = st.executeQuery();
-				while(rs.next()) {%>
-				<option><%= rs.getString(1) %></option>
-			<% 	}%>
 					</select>
 				</td>
 			</tr>
 			<tr>
 				<td><label for="campusa">Destination campus</label></td>
-				<td><select name="campusa" id="campusa">
+				<td><select name="campusa" id="campusa" onChange="changeLot(this.value, 'lota')">
+				<option value="" disabled selected>Select</option>
 			<% sql = "select distinct campus from locations";
 				st = c.prepareStatement(sql);
 				rs = st.executeQuery();
@@ -99,12 +122,6 @@ else {
 			<tr>
 				<td><label for="lota">Destination lot</label></td>
 				<td><select name="lota" id="lota">
-			<% sql = "select distinct lot from locations order by lot ";
-				st = c.prepareStatement(sql);
-				rs = st.executeQuery();
-				while(rs.next()) {%>
-				<option><%= rs.getString(1) %></option>
-			<% 	}%>
 					</select>
 				</td>
 			</tr>
@@ -138,7 +155,7 @@ else {
 			</tr>
 		</table>
 		<br>
-		<div align="center"><input type="submit" value="Post request" /></div>
+		<p align="center"><input type="submit" value="Post request" /></p>
 		
 		</form>
 		<%

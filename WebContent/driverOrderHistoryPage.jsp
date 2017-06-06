@@ -5,6 +5,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<link rel="stylesheet" href="css/historyStyle.css">
 <title>Driver Trip History</title>
 </head>
 <body>
@@ -22,19 +23,25 @@ if(session.getAttribute("userId") == null) {
 <%
 }
 else {
-	out.println("welcome, " + session.getAttribute("userId"));
+	%><div><% 
+	out.println("Welcome, ");
 %>
+	
+	<a href="myAccountPage.jsp"><%= session.getAttribute("userId")%></a>
+	<p>
 	<a href="mainUserDashboardPage.jsp">Back to main dashboard</a>
 	<form action="logout.jsp" method="post">
 		<input type="submit" value="Logout"/>
 	</form>
+	</div>
+	<p>
 	
 	<table align="center" cellpadding="7" cellspacing="2" border="1">
 	<caption>Passenger Trip History</caption>
-	<tr> 
+	<thead><tr> 
 		<td>Order ID</td>
-		<td>Departure lot</td>
-		<td>Destination lot</td>
+		<td>From lot</td>
+		<td>To lot</td>
 		<td>Date</td>
 		<td>Departure time window</td>
 		<td>Car info.</td>
@@ -42,7 +49,7 @@ else {
 		<td>Passenger email</td>
 		<td>Status</td>
 		<td>Review</td>
-	</tr>
+	</tr></thead>
 	
 <%
 
